@@ -5,8 +5,10 @@
 - ArchivesSpace 2.x+
 - MySQL client
 - Python 3
-- OpenRefine
-- LibreOffice, Excel
+  
+  `pandas` module (included with [Anaconda](https://www.anaconda.com/download/))
+- [OpenRefine](http://openrefine.org/download.html)
+- [LibreOffice](https://www.libreoffice.org/download/download/), Excel
 
 ### Demo 1: Publication Status
 
@@ -26,18 +28,19 @@
 
 `find_dupes.py`
 
+### Demo 3: Dates
+
+[Timetwister](https://github.com/alexduryee/timetwister) + `subprocess` module
+  Thanks to Alex Duryee!
+
+`date_parse.py`
+
 #### Regular expressions to find dates in strings:
   - `[^a-zA-z0-9]\d\d\d\d[^a-zA-Z0-9]`
     - Broadest, will return all 4 digit numbers directly in between any 2 non-letter, non-number characters. Will also return accession numbers which contain years
     
 #### Reg Ex Resources:
 [Reg Ex Checker](https://regex101.com/)
-
-
-### Demo 3: Dates
-
-[Timetwister](https://github.com/alexduryee/timetwister)
-  -Thanks to Alex Duryee!
 
 ### Demo 4: Labels
 
