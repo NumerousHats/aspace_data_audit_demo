@@ -32,7 +32,7 @@ These demos highlight the steps we took (and are still taking) to evaluate and c
 - Analyze results
 - Prepare for ArchivesSpace update
   
-##### Query Database
+#### Query Database
 
 `get_note_pub_status.sql`
 
@@ -156,7 +156,7 @@ Much less effective than timetwister, but does not require installation of Ruby 
 - Query the ArchivesSpace database to retrieve all user-supplied labels attached to resource-, archival object-, or digital-object level notes.
 - Analyze results
 
-#### Queries
+#### Query Database
 
 `get_notes.sql`
 
