@@ -1,6 +1,6 @@
 # ArchivesSpace Beyond the Basics Skillshare: Data Auditing for the ArchivesSpace PUI
 
-In August 2017, Yale University Libraries' special collections repositories initiated a library-wide project in preparation for the early 2018 rollout of the ArchivesSpace Public User Interface (PUI). The project is comprised of six subgroups focusing on different aspects of the implementation:
+In August 2017, Yale University Libraries' special collections repositories initiated a library-wide project in preparation for the rollout of the ArchivesSpace Public User Interface (PUI) in early 2018. The project is comprised of six subgroups focusing on different aspects of the implementation:
 - Accessibility
 - User experience and design
 - Technical integrations
@@ -8,11 +8,21 @@ In August 2017, Yale University Libraries' special collections repositories init
 - Branding and promotion
 - Data cleanup and enhancements (that's us!)
 
-The sheer quantity of metadata created across YUL special collections, and the extent to which the PUI is a departure from the current finding aid database, [YFAD](http://drs.library.yale.edu/fedoragsearch/rest), means that we will need to perform significant clean-up before the rollout.
+Yale's special collections repositories create an enormous amount of metadata, and the ArchivesSpace PUI represents a radical change from our current finding aid database ([YFAD](http://drs.library.yale.edu/fedoragsearch/rest)). Among other things, this means that we have a lot of data clean-up work to do before we can "go live" with the PUI. The Data Cleanup and Enhancements Workgroup has been charged with identifying the nature and extent of our data problems, and coming up with in-house or outsourced solutions.
 
-But before we can get into cleaning and enhancing our data, we must identify the nature and extent of our problems.
+In our initial meetings, we identified a [laundry list](http://addlink.com) of things that could be fixed. But, given the short-term nature of this project, we've had to do some hard thinking about which of our data quality issues will have the greatest impact on our users and on the security of our restricted metadata (i.e. student records, donor-imposed restrictions) once the PUI is implemented, and to stay focused on just those issues. 
 
-These demos highlight the steps we took (and are still taking) to evaluate and clean our data
+Our first task, after narrowing the scope of our work, was to identify the nature and extent of our problems in each of the eight areas on which we decided to focus:
+  - Publication status
+  - Restrictions
+  - Dates
+  - URLs
+  - Containers
+  - Controlled value lists + Extents
+  - Note Labels
+  - Preferred Citations
+
+The demos that follow outline the steps we took to audit our data in each of these areas. We share them in the hopes that they can be of use to other institutions seeking to undertake similar work. We will continue to update this repository as we evaluate our results and implement our solutions.
 
 ### Requirements
 
@@ -202,32 +212,7 @@ Checks whether a link is active or broken
 
 ### Demo 6: Containers
 
-### Demo 7: Extents
-
-#### Objectives
-- Query the ArchivesSpace database to retrieve all extent statements
-- Analyze results
-- Clean data, prepare for ArchivesSpace update
-
-#### Query Database
-
-`get_extents.sql`
-
-Returns URI, title(s), container summary, etc.
-
-`get_extents_plus_top_containers.sql`
-
-Returns extent data + container data for comparison
-
-#### Analyze Results
-
-`pandas-toolbox.py`
-
-Group results by physical description, etc.
-
-#### Clean Data
-
-### Demo 8: Citations
+### Demo 7: Citations
 
 #### Objectives
 - Query the ArchivesSpace database to retrieve all preferred citation notes
@@ -258,11 +243,12 @@ Identifies notes which do not contain non-word patterns
 
 Inserts call numbers into preferred citation notes
 
-### Demo 9: Managing Shared Records: Controlled Value Lists, Agents, Subjects, Container Profiles, etc.
+### Demo 8: Managing Shared Records (Controlled Value Lists, Agents, Subjects, Container Profiles, etc) + Extents
 
 #### Objectives
 - Query the ArchivesSpace database to retrieve all records linked to controlled values
 - Analyze results
+- Prepare for updates
 
 #### Query Database
 
@@ -274,9 +260,21 @@ Inserts call numbers into preferred citation notes
 
 `container_profiles_linked_recs.sql`
 
+`get_extents.sql`
+
+Returns URI, title(s), container summary, etc.
+
+`get_extents_plus_top_containers.sql`
+
+Returns extent data + container data for comparison
+
 Return URI, 
 
 #### Analyze Results
+
+`pandas-toolbox.py`
+
+Group results by physical description, etc.
 
 ### Lessons Learned
 
