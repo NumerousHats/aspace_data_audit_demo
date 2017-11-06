@@ -135,20 +135,26 @@ The rights restriction tables in the ArchivesSpace database are less-than-intuit
 
 #### Query Database
 
-`get_accession_dates.sql`
+`accession_dates.sql`
 - Returns accession title, URI, date expression, begin date, end date, date type, date label, date certainty, date calendar, date era
 
-`get_resource_dates.sql`
+`resource_dates.sql`
 - Returns resource title, identifier, URI, EAD ID, date expression, begin date, end date, date type, date label, date certainty, date calendar, date era
 
-`get_component_dates.sql`
-- Returns archival object title, archival object URI, parent resource title, parent URI, parent EAD ID, component level, date expression, begin date, end date, date type, date label, date certainty, date calendar, date era
+`component_dates.sql`
+- Returns archival object title, archival object URI, parent resource title, parent URI, parent EAD ID, component level, date expression, begin date, end date, date type, date label, date certainty, date calendar, date era. Also can be limited by repository ID and by amount of records. 
+
 
 #### Analyze Results
 
+<<<<<<< HEAD
 `dates_w_expression_no_beginend.sql`
 
 Returns all which have an expression but no structured begin or end date
+=======
+`archival_object_date_expression`
+- Returns archival object id, archival object title, parent resource record title, EAD ID, resource identifier, repository ID, date expression, date begin, and date end. Limits returns to records where date expression has data and empty machine-readable begin and end dates. Can also be limited by repository ID, and with limits for amount of records to return.
+>>>>>>> branch 'master' of https://github.com/ucancallmealicia/aspace_data_audit_demo
 
 `pandas-toolbox.py`
 

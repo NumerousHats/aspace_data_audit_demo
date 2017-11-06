@@ -1,7 +1,8 @@
-SELECT date.id, date.archival_object_id, archival_object.root_record_id, archival_object.repo_id, date.expression, date.begin, date.end FROM date 
-LEFT JOIN enumeration_value on enumeration_value.id=date.expression
-LEFT JOIN archival_object on date.archival_object_id=archival_object.id
+SELECT date.archival_object_id, archival_object.title AS component_title, resource.title AS resource_title, resource.ead_id, resource.identifier, archival_object.repo_id, date.expression, date.begin, date.end FROM archival_object
+LEFT JOIN date on archival_object.id=date.archival_object_id
+LEFT JOIN resource on archival_object.root_record_id=resource.id
 WHERE date.expression IS NOT NULL
-AND date.archival_object_id IS NOT NULL
-AND archival_object.repo_id=4 #insert repo id
-LIMIT 0, 5000
+AND date.begin IS NULL
+AND date.end IS NULL
+#AND archival_object.repo_id=4 #insert repo id
+#LIMIT 0, 5000 #for limiting record range
