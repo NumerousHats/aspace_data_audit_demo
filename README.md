@@ -10,7 +10,7 @@ In August 2017, Yale University Libraries' special collections repositories init
 
 Yale's special collections repositories create an enormous amount of metadata, and the ArchivesSpace PUI represents a radical change from our current finding aid database ([YFAD](http://drs.library.yale.edu/fedoragsearch/rest)). Among other things, this means that we have a lot of data clean-up work to do before we can "go live" with the PUI. The Data Cleanup and Enhancements Workgroup has been charged with identifying the nature and extent of our data problems, and coming up with in-house or outsourced solutions.
 
-In our initial meetings, we identified a [laundry list](http://addlink.com) of things that could be fixed. But, given the short-term nature of this project, we've had to do some hard thinking about which of our data quality issues will have the greatest impact on our users and on the security of our restricted metadata (i.e. student records, donor-imposed restrictions) once the PUI is implemented, and to stay focused on just those issues. 
+In our initial meetings, we identified a [laundry list](https://docs.google.com/document/d/16FG34yYXgN_W7Oi1P3HsVyrvoTd5C89WGCBEkqvfkyQ/edit) of things that could be fixed. But, given the short-term nature of this project, we've had to do some hard thinking about which of our data quality issues will have the greatest impact on our users and on the security of our restricted metadata (i.e. student records, donor-imposed restrictions) once the PUI is implemented, and to stay focused on just those issues. 
 
 Our first task, after narrowing the scope of our work, was to identify the nature and extent of our problems in each of the eight areas on which we decided to focus:
   - Publication status
@@ -38,7 +38,7 @@ The demos that follow outline the steps we took to audit our data in each of the
 ### Demo 1: Publication Status
 
 #### Objectives 
-- Query the ArchivesSpace database to find the publication status of accessions, resources, archival objects, and notes.       
+- Query the ArchivesSpace database to find the publication status of accessions, resources, archival objects, and notes. 
 - Analyze results
 - Prepare for ArchivesSpace update
   
@@ -53,13 +53,22 @@ The demos that follow outline the steps we took to audit our data in each of the
 `get_resource_pub_status.sql`
 - Returns resource title, EAD ID, publication status, and URI
 
+- Accessions, digital objects, etc.
+
 #### Analyze Results
 
 `pub_status_grouped.sql`
+- Group by resource, publication status
 
 `pandas-toolbox.py`
+- Group by resource, publication status. Get counts of pubished and unpublished records
 
 #### Prepare Data for ArchivesSpace Update
+
+- Review query outputs and make changes to publication status column - 1s and 0s
+
+`update_pub_status.py`
+- Updates publication status using updated query outputs as input
 
 ### Demo 2: Access Restrictions
 
@@ -71,29 +80,34 @@ The demos that follow outline the steps we took to audit our data in each of the
 
 #### Query Database
 
-`get_access_restricts.sql`
+`get_all_access_restricts.sql`
 - Returns URI, JSON-formatted note text, restriction note type, local restriction type, restriction begin date, restriction end date, title(s), persistent ID
 
-`get_use_restricts.sql`
+`get_all_use_restricts.sql`
 - Returns URI, JSON-formatted note text, restriction note type, local restriction type, restriction begin date, restriction end date, title(s), persistent ID
 
 #### Extract Text
 
 `extract_restricts.py`
 
-Extracts restriction note text from JSON output from database
-
-`in_need_of_mars.py`
-
-Identifies notes which contain dates or restrictions in free text fields, but do not have machine-actionable restrictions.
+Extracts restriction note text from JSON output from database and appends to a new copy of access restriction query ouput
 
 #### Analyze and Clean Data in OpenRefine
 
-###### Faceting and Filtering 
+###### Sorting, Faceting and Filtering
+  - Find records with potentially machine-actionable restrictions in free text fields, which do not have any text in machine-actionable fields
+  - Identify records which do not have restrictions
+  	- Keyword searches - 'open', etc.
 
-###### Regular expressions to find dates in strings:
-  - `[^a-zA-z0-9]\d\d\d\d[^a-zA-Z0-9]`
-    - Broadest formulation, will return all 4 digit numbers directly in between any 2 non-letter, non-number characters. Will also return accession numbers which contain years
+###### Regular expressions to find dates and restrictions in strings:
+  - `[^a-zA-z0-9]\d\d\d\d[^a-zA-Z0-9]` - [1|2]\d\d\d
+    - Broadest formulation, will return all 4 digit numbers directly in between any 2 non-letter, non-number characters. May also return accession numbers which contain years
+    	- For more specific formulations, see: [Regular Expression Library](http://regexlib.com/DisplayPatterns.aspx?cattabindex=4&categoryId=5)
+
+  - `\b[r|R](estrict)\w*\b`
+    - Broad search - will return 'restricted', 'Restricted', 'restriction', 'Restriction'; but may also return 'not restricted', etc.
+    - Narrower searches/further searches on filtered data - 'restricted fragile', 'donor'
+    - Won't necessarily capture everything, but can be iterative
     
 ###### Reg Ex/OpenRefine Resources:
   - [Reg Ex Checker](https://regex101.com/)
@@ -102,6 +116,7 @@ Identifies notes which contain dates or restrictions in free text fields, but do
 #### Prepare Data for ArchivesSpace Update
 
 ##### Adding columns in OpenRefine
+  - Can take machine actionable dates from free text fields and move them to a new column, which can then be used as input for making updates to notes via the ArchivesSpace API
 
 #### Troubleshooting
 
@@ -133,16 +148,14 @@ The rights restriction tables in the ArchivesSpace database are less-than-intuit
 
 `dates_w_expression_no_beginend.sql`
 
-Returns all dates that have an expression but no structured begin or end date
+Returns all which have an expression but no structured begin or end date
 
 `pandas-toolbox.py`
 
 Analyzes date type usage, era, certainty, etc.
 
 ##### OpenRefine
-- 
-
-#### Prepare Data for ArchivesSpace Update
+- See Demo 2: Restrictions for guidance on using regular expressions to parse free text date fields
 
 ##### [Timetwister](https://github.com/alexduryee/timetwister) + `subprocess` module
  
@@ -152,6 +165,7 @@ Analyzes date type usage, era, certainty, etc.
 
 Loops through a spreadsheet containing unstructured data expressions and parses them into machine-readable dates using timetwister
 
+
 ##### `dateutil.parser` module
 
 `date_parse.py`
@@ -159,6 +173,10 @@ Loops through a spreadsheet containing unstructured data expressions and parses 
 Loops through a spreadsheet containing unstructured data expressions and parses them into machine-readable dates using dateutil Python module
 
 Much less effective than timetwister, but does not require installation of Ruby or timetwister
+
+#### Prepare for ArchivesSpace Update
+
+Manipulating timetwister output, appending to original query output
 
 ### Demo 4: Managing Shared Records (Controlled Value Lists, Agents, Subjects, Container Profiles, etc) + Extents
 
@@ -169,29 +187,41 @@ Much less effective than timetwister, but does not require installation of Ruby 
 
 #### Query Database
 
-`extents_linked_recs.sql`
-- Returns
+`extent_type_rec_links.sql`
+- Returns repository name, resource identifier, resource title, coponent title, extent type ID, extent type, URI
 
 `agents_linked_recs.sql`
-- Returns
+- Returns repository name, resource identifier, resource title, component title, accession title, record URI, agent, agent URI
 
 `subjects_linked_recs.sql`
-- Returns
+- Returns repository name, resource identifier, resource title, component title, subject, URI
 
 `container_profiles_linked_recs.sql`
-- Returns
+- Returns repository name, resource identifier, resource title, component title, container profile, URI
 
 `get_extents.sql`
-- Returns URI, title(s), container summary, etc.
+- Returns URI, title(s), container summary, portion, number, extent type, physical details, dimensions
 
 `get_extents_plus_top_containers.sql`
 - Returns extent data + container data for comparison
 
+`get_enumeration_value_positions.sql`
+Returns URI, enumeration value, position
+
 #### Analyze Results
+
+`group_results.sql`
 
 `pandas-toolbox.py`
 
 Group results by physical description, etc.
+
+#### Preparing for ArchivesSpace Update
+
+- Contacting repositories, making policy decisions
+
+`update_enum_val_positions.py`
+- Updates position of enumeration values for a particular enumeration using `get_enumeration_value_positions.sql` output as input
 
 ### Demo 5: Labels
 
@@ -201,7 +231,7 @@ Group results by physical description, etc.
 
 #### Query Database
 
-`get_notes.sql`
+`get_all_notes.sql`
 - Returns note text (JSON format), URI, persistent ID
 
 Note: this query gets all notes. You can run this query one time and run numerous demos from this presentation on the same dataset. Can also split by repository for quicker analysis. Might be a good idea to make copies of the output.
@@ -227,7 +257,7 @@ Get counts of label usage relative to note type
 
 #### Query Database
 
-`get_notes.sql`
+`get_all_notes.sql`
 - Returns note text (JSON format), URI, persistent ID
 
 Note: this query gets all notes. You can run this query one time and run numerous demos from this presentation on the same dataset. Can also split by repository for quicker analysis. Might be a good idea to make copies of the output.
@@ -272,15 +302,18 @@ Checks whether a link is active or broken
 
 `file_uri.py`
 
-### Demo 8: Containers
+### A Note About Containers
+
+`get_top_containers.sql`
+
 
 ### Lessons Learned
 
 - Prioritize tasks by potential impact on users, data security
 - Clean-up is an iterative process
 - Use SQL to retrieve data
-- Use Python to manipulate, analyze, and update data
-  - Output as input
+- Use OpenRefine and Python to manipulate, analyze, and update data
+  - Output as input - don't forget your URIs!
 
 ### Next Steps
 
