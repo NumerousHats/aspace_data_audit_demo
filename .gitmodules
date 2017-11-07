@@ -1,0 +1,3 @@
+[submodule "data_cleanup_workgroup"]
+	path = data_cleanup_workgroup
+	url = https://github.com/YaleArchivesSpace/data_cleanup_workgroup
