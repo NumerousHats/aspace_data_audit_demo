@@ -94,7 +94,7 @@ Extracts restriction note text from JSON output from database and appends to a n
 ###### Sorting, Faceting and Filtering
   - Find records with potentially machine-actionable restrictions in free text fields, which do not have any text in machine-actionable fields
   - Identify records which do not have restrictions
-  	- Keyword searches - 'open', etc.
+  - Keyword searches - 'open', 'closed', etc.
 
 ###### Regular expressions to find dates and restrictions in strings:
   - `[^a-zA-z0-9]\d\d\d\d[^a-zA-Z0-9]` - [1|2]\d\d\d
