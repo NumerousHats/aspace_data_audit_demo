@@ -163,6 +163,8 @@ Loops through a spreadsheet containing unstructured data expressions and parses 
 
 ##### [Timewalk](https://github.com/alexduryee/timewalk) plugin
 
+`update_dates.py`
+
 Can request all URIs for dates you want to parse, then POST without making any changes. Dates associated with those URIs should parse. 
 
 ##### `dateutil.parser` module
