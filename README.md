@@ -48,7 +48,7 @@ The demos that follow outline the steps we took to audit our data in each of the
 - Returns note text (JSON format), publication status, parent URI, and persistent ID
 
 `get_component_pub_status.sql`
-- Returns archival object publication status, arcihival object display string, archival object level, parent resource publication status, parent EAD ID, and URI
+- Returns archival object publication status, archival object display string, archival object level, parent resource publication status, parent EAD ID, and URI
 
 `get_resource_pub_status.sql`
 - Returns resource title, EAD ID, publication status, and URI
@@ -228,7 +228,7 @@ Get counts of label usage relative to note type
 `get_extents_plus_top_containers.sql`
 - Returns extent data + container data for comparison
 
-`get_enumeration_value_positions.sql`
+`get_enum_positions.sql`
 Returns URI, enumeration value, position
 
 #### Analyze Results
