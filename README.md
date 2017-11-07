@@ -161,6 +161,10 @@ Analyzes date type usage, era, certainty, etc.
 
 Loops through a spreadsheet containing unstructured data expressions and parses them into machine-readable dates using timetwister
 
+#### [Timewalk](https://github.com/alexduryee/timewalk) plugin
+
+Can request all URIs for dates you want to parse, then POST without making any changes. Dates associated with those URIs should parse. 
+
 ##### `dateutil.parser` module
 
 `date_parse.py`
