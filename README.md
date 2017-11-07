@@ -305,7 +305,8 @@ Checks whether a link is active or broken
 - Clean-up is an iterative process
 - Use SQL to retrieve data
 - Use OpenRefine and Python to manipulate, analyze, and update data
-  - Output as input - don't forget your URIs!
+  - Output as input - don't forget your URIs and persistent IDs!
+- Some manual review necessary, but most tasks can be automated
 
 ### Next Steps
 
