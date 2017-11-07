@@ -53,7 +53,7 @@ The demos that follow outline the steps we took to audit our data in each of the
 `get_resource_pub_status.sql`
 - Returns resource title, EAD ID, publication status, and URI
 
-- Accessions, digital objects, etc.
+- Can create similar queries for digital objects and accessions if desired
 
 #### Analyze Results
 
@@ -88,7 +88,7 @@ The demos that follow outline the steps we took to audit our data in each of the
 
 #### Extract Text
 
-`extract_restricts.py`
+`extract_multipart_text.py`
 
 Extracts restriction note text from JSON output from database and appends to a new copy of access restriction query ouput
 
@@ -191,7 +191,7 @@ Note: this query gets all notes. You can run this query one time and run numerou
 
 #### Extract Text
 
-`extract_text.py`
+`extract_labels.py`
 
 Extract notes type and label into a list, along with URI and persistent ID
 
@@ -266,7 +266,7 @@ Extracts text from JSON output.
 
 `ID_missing_call_numbers.py`
 
-Identifies notes which do not contain non-word patterns
+Identifies notes which do not contain non-word patterns. Can also do this in OpenRefine
 
 #### Clean Data
 
