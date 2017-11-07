@@ -16,8 +16,8 @@ Our first task, after narrowing the scope of our work, was to identify the natur
   - Publication status
   - Restrictions
   - Dates
-  - Shared records/controlled value lists + Extents
   - Note Labels
+  - Shared records/controlled value lists + Extents
   - Preferred Citations
   - URLs
   - Containers
@@ -57,11 +57,8 @@ The demos that follow outline the steps we took to audit our data in each of the
 
 #### Analyze Results
 
-`pub_status_grouped.sql`
-- Group by resource, publication status
-
 `pandas-toolbox.py`
-- Group by resource, publication status. Get counts of pubished and unpublished records
+- Group by resource, publication status. Get counts of published and unpublished records
 
 #### Prepare Data for ArchivesSpace Update
 
@@ -229,7 +226,7 @@ Get counts of label usage relative to note type
 - Returns extent data + container data for comparison
 
 `get_enum_positions.sql`
-Returns URI, enumeration value, position
+- Returns URI, enumeration value, position
 
 #### Analyze Results
 
