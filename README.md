@@ -164,7 +164,6 @@ Analyzes date type usage, era, certainty, etc.
 
 Loops through a spreadsheet containing unstructured data expressions and parses them into machine-readable dates using timetwister
 
-
 ##### `dateutil.parser` module
 
 `date_parse.py`
@@ -177,7 +176,32 @@ Much less effective than timetwister, but does not require installation of Ruby 
 
 Manipulating timetwister output, appending to original query output
 
-### Demo 4: Managing Shared Records (Controlled Value Lists, Agents, Subjects, Container Profiles, etc) + Extents
+### Demo 4: Labels
+
+#### Objectives
+- Query the ArchivesSpace database to retrieve all user-supplied labels attached to resource-, archival object-, or digital-object level notes.
+- Analyze results
+
+#### Query Database
+
+`get_all_notes.sql`
+- Returns note text (JSON format), URI, persistent ID
+
+Note: this query gets all notes. You can run this query one time and run numerous demos from this presentation on the same dataset. Can also split by repository for quicker analysis. Might be a good idea to make copies of the output.
+
+#### Extract Text
+
+`extract_text.py`
+
+Extract notes type and label into a list, along with URI and persistent ID
+
+#### Analyze Data
+
+`pandas-toolbox.py`
+
+Get counts of label usage relative to note type
+
+### Demo 5: Managing Shared Records (Controlled Value Lists, Agents, Subjects, Container Profiles, etc) + Extents
 
 #### Objectives
 - Query the ArchivesSpace database to retrieve all records linked to controlled values
@@ -209,8 +233,6 @@ Returns URI, enumeration value, position
 
 #### Analyze Results
 
-`group_results.sql`
-
 `pandas-toolbox.py`
 
 Group results by physical description, etc.
@@ -221,31 +243,6 @@ Group results by physical description, etc.
 
 `update_enum_val_positions.py`
 - Updates position of enumeration values for a particular enumeration using `get_enumeration_value_positions.sql` output as input
-
-### Demo 5: Labels
-
-#### Objectives
-- Query the ArchivesSpace database to retrieve all user-supplied labels attached to resource-, archival object-, or digital-object level notes.
-- Analyze results
-
-#### Query Database
-
-`get_all_notes.sql`
-- Returns note text (JSON format), URI, persistent ID
-
-Note: this query gets all notes. You can run this query one time and run numerous demos from this presentation on the same dataset. Can also split by repository for quicker analysis. Might be a good idea to make copies of the output.
-
-#### Extract Text
-
-`extract_text.py`
-
-Extract notes type and label into a list, along with URI and persistent ID
-
-#### Analyze Data
-
-`pandas-toolbox.py`
-
-Get counts of label usage relative to note type
 
 ### Demo 6: Citations
 
@@ -304,7 +301,6 @@ Checks whether a link is active or broken
 ### A Note About Containers
 
 `get_top_containers.sql`
-
 
 ### Lessons Learned
 
